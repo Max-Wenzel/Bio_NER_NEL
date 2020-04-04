@@ -1,6 +1,6 @@
 import sklearn_crfsuite
 from sklearn_crfsuite import metrics
-from crf_funcs import *
+from helper_functions import *
 
 
 def step_one(file_name, file_2):

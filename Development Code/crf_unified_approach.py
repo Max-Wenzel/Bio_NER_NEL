@@ -1,7 +1,7 @@
 import sklearn_crfsuite
 from sklearn_crfsuite import metrics
 from sklearn.metrics import f1_score
-from crf_funcs import *
+from helper_functions import *
 
 
 def unified_approach(file_name, file_2):
