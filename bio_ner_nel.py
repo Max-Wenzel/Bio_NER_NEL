@@ -123,8 +123,8 @@ class BioAnalysis:
     def roberta_ner_eval(self):
         dev_df = pd.DataFrame(self.roberta_ner_dev_data, columns=['sentence_id', 'words', 'labels'])
         test_df = pd.DataFrame(self.roberta_ner_test_data, columns=['sentence_id', 'words', 'labels'])
-        self.roberta_ner_dev_eval = self.roberta_ner_model.eval_model(dev_df)
-        self.roberta_ner_test_eval = self.roberta_ner_model.eval_model(test_df)
+        self.roberta_ner_dev_eval = self.roberta_ner_model.eval_model(dev_df, "./ner_outputs/")
+        self.roberta_ner_test_eval = self.roberta_ner_model.eval_model(test_df, "./ner_outputs/")
         print("Dev NER Results\n===========")
         print("Precision:", self.roberta_ner_dev_eval[0]["precision"])
         print("Recall:", self.roberta_ner_dev_eval[0]["recall"])
@@ -138,7 +138,10 @@ class BioAnalysis:
         self.roberta_ner_model = NERModel("roberta", "ner_outputs/", labels=self.labels, args={"num_train_epochs": 3})
 
     def roberta_ner_nel_pipeline(self):
-        self.roberta_ner_load_model()
+        try:
+            self.roberta_ner_load_model()
+        except OSError:
+            self.roberta_ner_train()
         self.roberta_ner_eval()
 
         roberta_dev_phrases = deepcopy(self.dev_data)
@@ -154,10 +157,12 @@ class BioAnalysis:
                 roberta_test_phrases[ii][jj] = list(roberta_test_phrases[ii][jj])
                 roberta_test_phrases[ii][jj][2] = self.roberta_ner_test_eval[2][ii][jj]
         roberta_test_phrases, roberta_test_spans = get_roberta_nel_data(roberta_test_phrases)
-
-        self.roberta_nel_load_model()
-        roberta_dev_prediction = ba.roberta_nel_model.predict([x[0] for x in roberta_dev_phrases])[0]
-        roberta_test_prediction = ba.roberta_nel_model.predict([x[0] for x in roberta_test_phrases])[0]
+        try:
+            self.roberta_nel_load_model()
+        except OSError:
+            self.roberta_nel_train()
+        roberta_dev_prediction = self.roberta_nel_model.predict([x[0] for x in roberta_dev_phrases])[0]
+        roberta_test_prediction = self.roberta_nel_model.predict([x[0] for x in roberta_test_phrases])[0]
 
         roberta_dev_actual = [x[1] for x in self.roberta_nel_dev_data]
         roberta_test_actual = [x[1] for x in self.roberta_nel_test_data]
