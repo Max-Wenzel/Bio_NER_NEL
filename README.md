@@ -2,8 +2,25 @@
 The code for my senior thesis on named entity recognition and linking in the domain of biology
 
 
-## bio_ner_nel.py
+
+
+## Overview of Contents
+### bio_ner_nel.py
 
 Contains the master class for training and evaluating the three models. 
 
-## crf_funcs.py
+### Example.ipynb
+
+Shows the process of training and evaluating each of the three models as well as the full RoBERTa pipeline.
+
+### helper_functions.py
+
+Contains the helper functions for tasks such as reformating data and other operations that do not require direct access to the master class data.
+
+### Devlopment Code
+
+Contains files such as the notebooks used for hyperparamater tuning and older code that was used throughout the devlopment in the models found in the master class. 
+
+### data
+
+Contains the data files for training, devlopment, and testing.
