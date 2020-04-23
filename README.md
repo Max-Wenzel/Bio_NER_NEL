@@ -5,6 +5,9 @@ The code for my senior thesis on named entity recognition and linking in the dom
 
 
 ## Overview of Contents
+### Wenzel_Thesis.pdf
+The final version of my thesis paper
+
 ### bio_ner_nel.py
 
 Contains the master class for training and evaluating the three models. 
